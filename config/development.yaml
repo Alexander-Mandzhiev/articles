@@ -1,0 +1,7 @@
+
+env: "development"
+database_url: "host=localhost port=5433 user=postgres password=root dbname=articles sslmode=disable"
+http_server:
+ address: "3000"
+ timeout: 4s
+ idle_timeout: 60s
