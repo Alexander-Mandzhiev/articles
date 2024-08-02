@@ -67,7 +67,7 @@ func (h *Handler) Update(c *gin.Context) {
 		return
 	}
 
-	article, err := h.services.Article.Update(id, &input)
+	article, err := h.services.Article.Update(id, input)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return

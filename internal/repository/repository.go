@@ -9,9 +9,9 @@ import (
 
 type Article interface {
 	Create(article *models.Article) (*models.Article, error)
-	GetAll() ([]*models.Article, error)
-	Update(id string, article *models.Article) (*models.Article, error)
-	GetOne(id string) (*models.Article, error)
+	GetAll() ([]models.Article, error)
+	Update(id string, article models.Article) (models.Article, error)
+	GetOne(id string) (models.Article, error)
 	Delete(id string) error
 }
 type Repository struct {

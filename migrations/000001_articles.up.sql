@@ -2,6 +2,5 @@ CREATE TABLE IF NOT EXISTS articles (
     id UUID PRIMARY KEY UNIQUE,
     title VARCHAR(255) NOT NULL,
     text TEXT NOT NULL,
-    authors TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    authors TEXT NOT NULL
 )

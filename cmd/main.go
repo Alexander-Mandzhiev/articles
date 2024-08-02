@@ -7,7 +7,11 @@ import (
 	"articles/internal/repository"
 	"articles/internal/service"
 	"articles/pkg/sl"
+	"context"
 	"log/slog"
+	"os"
+	"os/signal"
+	"syscall"
 )
 
 func main() {
@@ -30,7 +34,26 @@ func main() {
 	logger.Info("initialize handlers")
 
 	srv := new(apiserver.APIServer)
-	if err := srv.Start(cfg.Address, handlers.InitRouters()); err != nil {
-		logger.Error("error occured while running http server: %s", sl.Err(err))
+
+	go func() {
+		if err := srv.Start(cfg.Address, handlers.InitRouters()); err != nil {
+			logger.Error("error occured while running http server: %s", sl.Err(err))
+		}
+	}()
+	logger.Info("starting application")
+
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)
+
+	<-quit
+
+	logger.Info("application shutdown")
+	if err := srv.Shutdown(context.Background()); err != nil {
+		logger.Error("error occured on server shutdown: %s", sl.Err(err))
+	}
+
+	logger.Info("application shutdown")
+	if err := db.Close(); err != nil {
+		logger.Error("error occured on db connection close: %s", sl.Err(err))
 	}
 }
