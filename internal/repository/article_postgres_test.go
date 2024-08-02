@@ -262,7 +262,7 @@ func TestTodoItemPostgres_Delete(t *testing.T) {
 	}
 }
 
-func TestTodoItemPostgres_Update(t *testing.T) {
+func TestArticlePostgres_Update(t *testing.T) {
 	db, mock, err := sqlmock.Newx()
 	if err != nil {
 		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
@@ -286,7 +286,7 @@ func TestTodoItemPostgres_Update(t *testing.T) {
 			mock: func() {
 				rows := []string{"id", "name", "text", "authors"}
 
-				mock.ExpectQuery("UPDATE articles SET (.+) WHERE (.+)").
+				mock.ExpectQuery("UPDATE articles SET (.+) WHERE (.+)").WithArgs("92b7f107-e3a6-4053-ae25-a374ed8cc1b7", "Author Ok", "test desc", "1").
 					WillReturnRows(sqlmock.NewRows(rows).
 						AddRow("92b7f107-e3a6-4053-ae25-a374ed8cc1b7", "Author Ok", "test desc", "1"))
 			},
